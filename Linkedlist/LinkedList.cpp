@@ -86,9 +86,24 @@ int Count(node* list, int value)
 	}
 	return count;
 }
+
+//Write a function DeleteList() that takes a list, deallocates all of its memory and sets its
+//head pointer to NULL (the empty list).
+void DeleteList(struct node*& list) 
+{
+	if(list == NULL)
+		return;
+	// doing this recursively
+	struct node* temp = list->next;
+	delete(list);
+	DeleteList(temp);
+}
+
+
 int main()
 {
 	struct node* temp = createList(9);
 	int nth = GetNth(temp, 4);
+	DeleteList(temp);
 	return 0;
 }	
