@@ -1,4 +1,4 @@
-#include "LinkedList.h"
+
 #include <stddef.h>
 
 struct node
@@ -94,16 +94,60 @@ void DeleteList(struct node*& list)
 	if(list == NULL)
 		return;
 	// doing this recursively
-	struct node* temp = list->next;
-	delete(list);
-	DeleteList(temp);
+	DeleteList(list->next);
+    delete list;
 }
 
+int Pop(struct node*& list)
+{
+	int poppedItem = -999999;
+	if(list == NULL)
+		return -999999;
+	struct node* temp = list;
+	poppedItem = temp->data;
+	temp = temp->next;
+	delete(list);
+	list = temp;
+	return poppedItem;
+}
+
+void InsertNth(struct node*& list, int position, int value)
+{
+	if(list == NULL)
+	{
+		struct node* temp = create(value);
+		list = temp;
+	}
+	else
+	{
+		struct node* current = list;
+		int count = 0; 
+		while(current != NULL)
+		{
+			// this is a case when we found the position
+			if(count == position-1)
+			{
+				struct node* temp = create(value);
+				temp->next = current->next;
+				current->next = temp;
+				break;
+			}
+			else if(count > position)
+				break;
+			count++;
+			current = current->next;
+		}
+	}
+}
 
 int main()
 {
-	struct node* temp = createList(9);
-	int nth = GetNth(temp, 4);
-	DeleteList(temp);
+	struct node* temp = createList(2);
+	struct node* nullpointer = NULL;
+	//int nth = GetNth(temp, 4);
+	//DeleteList(temp);
+	//int popped = Pop(temp);
+	InsertNth(nullpointer,2,7);
+
 	return 0;
 }	
