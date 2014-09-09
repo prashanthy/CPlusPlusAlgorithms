@@ -53,8 +53,20 @@ node* createList(int size)
 //that the first node is index 0
 int GetNth(node* list, int value)
 {
+	int count = 0; 
+	struct node* current = list;
+	if(list != NULL)
+	{
+		while(current->next != NULL)
+		{
+			if(count == value)
+				return current->data;
+			current = current->next;
+			count++;
+		}
+	}
 	// placeholder
-	return 0;
+	return -9999999;
 }
 
 //Write a Count() function that counts the number of times a given int occurs in a list. The
@@ -76,6 +88,7 @@ int Count(node* list, int value)
 }
 int main()
 {
-	struct node* temp = createList(3);
+	struct node* temp = createList(9);
+	int nth = GetNth(temp, 4);
 	return 0;
 }	
