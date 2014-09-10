@@ -140,14 +140,78 @@ void InsertNth(struct node*& list, int position, int value)
 	}
 }
 
+
+void Push(struct node*& headRef, int newNode)
+{
+	if(headRef == NULL)
+	{
+		struct node* nodenew = create(newNode);
+		nodenew->next = headRef;
+		headRef = nodenew;
+	}
+}
+
+void SortedInsert(struct node*& headRef, struct node* newNode)
+{
+	/*Write a SortedInsert() function which given a list that is sorted in increasing order, and a
+	single node, inserts the node into the correct sorted position in the list. While Push()
+	allocates a new node to add to the list, SortedInsert() takes an existing node, and just
+	rearranges pointers to insert it into the list. There are many possible solutions to this
+	problem.*/
+	if(headRef == NULL)
+	{
+		Push(headRef, newNode->data);
+	}
+	else
+	{
+		struct node* current = headRef;
+		while(current->next != NULL)
+		{
+			if(newNode->data < current->data)
+			{
+				newNode->next = current;
+				current = newNode;
+			}
+			else if(newNode->data < current->next->data)
+			{
+				newNode->next = current->next;
+				current->next = newNode;
+			}
+			current = current->next;
+		}
+		if(current->next == NULL && newNode->data > current->data)
+		{
+			current->next = newNode;
+		}
+	}
+}
+
+
+void InsertSort(struct node*& headRef)
+{
+	if(headRef == NULL)
+		return;
+	else
+	{
+		struct node* current = headRef;
+		while(current != NULL)
+		{
+			SortedInsert(headRef, current);
+			current = current->next;
+		}
+	}
+}
+
 int main()
 {
-	struct node* temp = createList(2);
+	struct node* temp = createList(6);
+
 	struct node* nullpointer = NULL;
 	//int nth = GetNth(temp, 4);
 	//DeleteList(temp);
 	//int popped = Pop(temp);
-	InsertNth(nullpointer,2,7);
+	//InsertNth(nullpointer,2,7);
 
+	SortedInsert(temp, create(7));
 	return 0;
 }	
